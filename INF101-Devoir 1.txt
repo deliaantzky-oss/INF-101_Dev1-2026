@@ -1,0 +1,118 @@
+              INF101 - Introduction aux outils informatiques
+                                                (3 Crédits)
+
+                                                Devoir #1
+
+                                                Hiver 2026
+
+
+
+Consignes générales
+      Ce travail se fait en équipe de 2 étudiants au maximum.
+      Il est fortement conseillé de se mettre en équipe avec des personnes qui habitent la
+       même localité que vous, afin de faciliter les échanges conduisant à la réalisation du
+       travail.
+      Le travail doit être remis sur Moodle AU PLUS TARD LE 21 FÉVRIER 2026. Pour
+       cela, il faut rentrer sur le site du cours et déposer le fichier en utilisant l’option
+       « Remise du travail ».
+      Ce travail sera noté sur 20 pour une pondération 10 % de la note finale du cours. Il
+       doit être rédigé en français.
+      Le plagiat est formellement interdit et tout étudiant qui y est impliqué est passible de
+       renvoi de l’ISTEAH.
+
+
+
+
+Exercice # 1 (2 points)
+Nommer tous les composants que l'on trouve dans une tour d'ordinateur de bureau.
+
+
+Exercice # 2 (3 points)
+Un étudiant de l’ISTEAH utilise l’un des ordinateurs de la salle informatique pour travailler sur
+un devoir. Il allume l’ordinateur et ouvre Microsoft Word afin de rédiger son travail. Il saisit
+son texte à l’aide du clavier et utilise la souris pour corriger certaines parties. Pendant qu’il
+travaille, il se rend compte qu’il ne comprend pas bien une notion vue en classe. Il regarde alors
+une capsule vidéo du cours sur Moodle. Pour ne pas déranger les autres étudiants dans la salle,
+il met ses écouteurs. Une fois la notion comprise, il reprend son travail, enregistre le document,
+puis copie la partie déjà réalisée du devoir sur une clé USB afin de pouvoir continuer à travailler
+
+
+       © Institut des sciences, des technologies et des études avancées d’Haïti                1
+chez lui sur son ordinateur personnel. Avant de quitter la salle, il imprime la partie déjà faite de
+son devoir.
+À partir de ce scénario, quels sont les périphériques utilisés par l’étudiant ? Précisez le type de
+chacun.
+
+
+
+Exercice # 3 (3 points)
+En vous appuyant sur la figure ci-dessous, définissez et explicitez les rôles des composants
+numériques suivants dans l’architecture de base d’un ordinateur :
+   - Compteur de programme
+   - Registre de données
+   - Accumulateur
+   - Registre d’instructions
+   - Registre tampon
+   - Registre de sortie
+   - Registre d’entrée
+   - Registre d’adresse
+
+
+
+
+Exercice # 4 (1.5 points)
+
+Convertissez les nombres décimaux suivants en bases indiquées :
+  a. 265 en binaire
+
+       © Institut des sciences, des technologies et des études avancées d’Haïti                 2
+   b. 839 à octal
+   c. 572 en hexadécimal
+
+
+
+Exercice # 5 (2.5 points)
+
+Décrivez un cycle d’instruction en l’illustrant à l’aide de la représentation
+interne de l’information dans les registres suivants : registre d’adresse, registre
+mémoire, registre d’instruction, registre de données, registre du processeur
+
+Exercice # 6 (1 point)
+
+Explicitez le mécanisme de conversion du décimal 41.6875 en binaire
+101001.1011
+
+Exercice # 7 (4 points)
+
+   o Étant donné un nombre N en base r ayant n chiffres
+     Le complément à (r - 1) de N est défini par (rn - 1) - N
+   o Pour les nombres décimaux r = 10 et r - 1 = 9
+     Le complément à 9 de N est (10n - 1) - N
+   o Pour les nombres binaires r = 2 et r - 1 = 1
+     Le complément à 1 de N est donc (2n - 1) – N
+   - Le complément à 9 d'un nombre décimal est obtenu en soustrayant chaque
+     chiffre de 9.
+     Exemple : Le complément à 9 de 546700 est 999999 – 546700 = 453299
+   - Le complément à 1 d'un nombre binaire est formé en changeant les 1 en 0
+     et les 0 en 1
+     Exemple : le complément à 1 de 1011001 est 0100110
+En vous inspirant de ce qui précède et grâce à une illustration de votre choix,
+expliquez comment obtenir le complément à (r – 1) d’un nombre octal, et le
+complément à (r – 1) d’un nombre hexadécimal.
+
+
+
+
+      © Institut des sciences, des technologies et des études avancées d’Haïti    3
+Exercice # 8 (3 points)
+
+Explicitez la configuration en RAM et en ROM de la carte d’adresse mémoire
+décrite à travers le schéma ci-dessous.
+
+
+
+
+                                                                                 Bon travail !
+
+      © Institut des sciences, des technologies et des études avancées d’Haïti             4
+

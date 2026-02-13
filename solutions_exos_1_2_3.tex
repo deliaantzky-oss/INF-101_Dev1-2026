@@ -1,0 +1,185 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+
+\geometry{hmargin=2.5cm,vmargin=2.5cm}
+
+\title{Résolution des Exercices 1, 2 et 3}
+\author{}
+\date{}
+
+\begin{document}
+
+\section*{Exercice 1 : Composants d'une tour d'ordinateur de bureau}
+
+Les principaux composants que l'on trouve dans une tour d'ordinateur de bureau sont :
+
+\begin{itemize}
+    \item \textbf{La carte mère (Motherboard)} : Le circuit imprimé principal qui connecte tous les composants.
+    \item \textbf{Le processeur (CPU)} : Le cerveau de l'ordinateur qui exécute les instructions.
+    \item \textbf{Le ventirad (Système de refroidissement)} : Dissipateur thermique et ventilateur pour le processeur.
+    \item \textbf{La mémoire vive (RAM)} : Stocke temporairement les données en cours d'utilisation.
+    \item \textbf{Le disque dur (HDD) ou disque SSD} : Pour le stockage permanent des données et du système d'exploitation.
+    \item \textbf{Le bloc d'alimentation (PSU)} : Fournit l'électricité aux composants.
+    \item \textbf{La carte graphique (GPU)} : Gère l'affichage à l'écran (peut être intégrée au CPU ou dédiée).
+    \item \textbf{Le lecteur optique} (Optionnel, de plus en plus rare).
+    \item \textbf{La carte réseau / Carte Wi-Fi} (Souvent intégrée à la carte mère).
+    \item \textbf{La carte son} (Souvent intégrée à la carte mère).
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image_ex1_pc_components.jpg}
+\caption{Vue interne des composants d'un ordinateur}
+\textit{Source : Image générée par IA (Amazon Titan Image Generator v2)}
+\end{figure}
+
+% Schéma simpliste d'une tour (Optionnel, mais visuellement aidant)
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1cm, auto, scale=0.8, every node/.style={transform shape}]
+    % Boitier
+    \draw[thick] (0,0) rectangle (10,12);
+    \node[above] at (5,12) {Tour d'ordinateur};
+    
+    % Alimentation
+    \node[draw, fill=gray!20, minimum width=3cm, minimum height=2cm] (psu) at (2,10.5) {Alimentation};
+    
+    % Carte Mère
+    \node[draw, fill=green!10, minimum width=6cm, minimum height=8cm] (cm) at (5,5) {};
+    \node[anchor=north] at (5,9) {Carte Mère};
+    
+    % CPU
+    \node[draw, fill=blue!20, minimum size=1.5cm] (cpu) at (5,7) {CPU + Ventirad};
+    
+    % RAM
+    \node[draw, fill=yellow!20, rotate=90, minimum width=2cm, minimum height=0.5cm] (ram) at (7,7) {RAM};
+    \node[draw, fill=yellow!20, rotate=90, minimum width=2cm, minimum height=0.5cm] at (7.6,7) {RAM};
+    
+    % GPU
+    \node[draw, fill=red!20, minimum width=4cm, minimum height=1cm] (gpu) at (5,3) {Carte Graphique (PCIe)};
+    
+    % Stockage
+    \node[draw, fill=orange!20, minimum width=2.5cm, minimum height=1.5cm] (hdd) at (8.5,2) {HDD/SSD};
+    
+    % Lecteur Optique
+    \node[draw, fill=cyan!10, minimum width=2.5cm, minimum height=1cm] (odd) at (8.5,10.5) {Lecteur Optique};
+
+\end{tikzpicture}
+\caption{Schéma simplifié de l'agencement interne d'une tour PC}
+\end{figure}
+
+\section*{Exercice 2 : Analyse du scénario et périphériques}
+
+Basé sur le scénario de l'étudiant de l'ISTEAH, voici les périphériques identifiés et leurs types :
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{image_ex2_peripherals.jpg}
+\caption{Illustration du poste de travail et des périphériques}
+\textit{Source : Image générée par IA (Amazon Titan Image Generator v2)}
+\end{figure}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|c|p{8cm}|}
+\hline
+\textbf{Périphérique} & \textbf{Type} & \textbf{Justification dans le texte} \\
+\hline
+\textbf{Clavier} & Entrée & "Il saisit son texte à l’aide du clavier" \\
+\hline
+\textbf{Souris} & Entrée & "utilise la souris pour corriger certaines parties" \\
+\hline
+\textbf{Écran} & Sortie & "Il regarde alors une capsule vidéo" (Impliqué par le visionnage) \\
+\hline
+\textbf{Écouteurs} & Sortie & "il met ses écouteurs" \\
+\hline
+\textbf{Clé USB} & Entrée / Sortie & "copie la partie déjà réalisée du devoir sur une clé USB" \\
+\hline
+\textbf{Imprimante} & Sortie & "il imprime la partie déjà faite de son devoir" \\
+\hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+\section*{Exercice 3 : Rôles des composants numériques (Architecture de Von Neumann)}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    block/.style={rectangle, draw, fill=white, text width=2.5cm, text centered, rounded corners, minimum height=1.2cm},
+    line/.style={draw, -latex'},
+    cloud/.style={draw, ellipse, fill=red!20, node distance=3cm, minimum height=2em}
+]
+
+% CPU Components Layout
+\node[block, fill=blue!10] (pc) {Compteur de Programme (PC)};
+\node[block, fill=blue!10, right=1cm of pc] (mar) {Registre d'Adresse (MAR)};
+\node[block, fill=green!10, right=1cm of mar] (mem) {Mémoire Principale (RAM)};
+
+\node[block, fill=yellow!10, below=1cm of pc] (ir) {Registre d'Instructions (IR)};
+\node[block, fill=orange!10, below=1cm of mar] (mdr) {Registre de Données (MDR)};
+
+\node[block, fill=purple!10, below=1cm of ir] (cu) {Unité de Contrôle};
+\node[block, fill=red!10, below=1cm of mdr] (acc) {Accumulateur (AC)};
+
+\node[block, fill=lightgray, below=1cm of acc] (alu) {Unité Arithmétique et Logique (UAL)};
+
+% Buses (Generic)
+\draw[line, thick] (pc) -- (mar);
+\draw[line, thick] (mar) -- (mem);
+\draw[line, thick] (mem) -- (mdr);
+\draw[line, thick] (mdr) -- (ir);
+\draw[line, thick] (mdr) -- (acc);
+\draw[line, thick] (acc) -- (alu);
+\draw[line, thick] (cu) -| (ir);
+
+% Input/Output placeholders
+\node[block, fill=gray!10, left=1cm of pc] (inpr) {Registre d'Entrée (INPR)};
+\node[block, fill=gray!10, left=1cm of alu] (outr) {Registre de Sortie (OUTR)};
+
+% Connections
+\draw[line, dashed] (inpr) -- (mdr); % Simplified flow
+\draw[line, dashed] (alu) -- (outr); % Simplified flow
+
+\end{tikzpicture}
+\caption{Schéma conceptuel de l'Architecture de Von Neumann}
+\end{figure}
+
+Voici les définitions et rôles des composants numériques dans l'architecture de base d'un ordinateur :
+
+\begin{description}
+    \item[Compteur de programme (PC)] \hfill \\
+    C'est un registre qui contient l'adresse mémoire de la \textit{prochaine} instruction à exécuter par le processeur. Il est incrémenté automatiquement après chaque lecture d'instruction.
+
+    \item[Registre de données (MDR)] \hfill \\
+    Ce registre stocke temporairement les données qui viennent d'être lues de la mémoire ou celles qui sont prêtes à être écrites dans la mémoire. Il agit comme un tampon entre le processeur et la mémoire centrale.
+
+    \item[Accumulateur (AC)] \hfill \\
+    C'est un registre spécial de l'unité arithmétique et logique ((UAL) utilisé pour stocker les résultats intermédiaires des opérations arithmétiques et logiques.
+
+    \item[Registre d'instructions (IR)] \hfill \\
+    Ce registre contient l'instruction qui est \textit{actuellement} en cours d'exécution. Le processeur décode le contenu de ce registre pour savoir quelle opération effectuer.
+
+    \item[Registre tampon] \hfill \\
+    Un registre utilisé pour stocker temporairement des données lors de leur transfert entre deux unités fonctionnelles fonctionnant à des vitesses différentes (par exemple, entre le processeur et un périphérique).
+
+    \item[Registre de sortie (OUTR)] \hfill \\
+    Ce registre conserve les données traitées par le processeur avant qu'elles ne soient envoyées vers un périphérique de sortie (comme un écran ou une imprimante).
+
+    \item[Registre d'entrée (INPR)] \hfill \\
+    Ce registre reçoit et stocke temporairement les données provenant d'un périphérique d'entrée (comme un clavier) avant qu'elles ne soient traitées par le processeur.
+
+    \item[Registre d'adresse (MAR)] \hfill \\
+    Ce registre contient l'adresse de l'emplacement mémoire auquel le processeur veut accéder, que ce soit pour lire une instruction/donnée ou pour écrire une donnée.
+\end{description}
+
+\end{document}
