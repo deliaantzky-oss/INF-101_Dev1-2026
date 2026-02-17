@@ -9,10 +9,15 @@
 \usepackage{tikz}
 \usepackage{svg}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{fancyhdr}
 \usepackage{caption}
 
-\usetikzlibrary{shapes,arrows,positioning}
+\usetikzlibrary{shapes,arrows,positioning,decorations.pathreplacing,calc}
+\usepackage{multirow}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{%
+  \node[shape=circle, draw, inner sep=1pt, font=\scriptsize\bfseries] (char) {#1};}}
 
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
 
@@ -26,7 +31,6 @@
 
 
 \begin{document}
-\begin{titlepage}
    \begin{titlepage}
     \centering
     
@@ -269,9 +273,111 @@ On divise par 8 successivement :
 
 \subsubsection*{$(572)_{10} = \mathbf{23C_{16}}$ en faisant  la notation du bas vers le haut}
 
-% Put number 5 here
+\newpage
 
-%
+\section*{Exercice 5 : Cycle d'instruction}
+
+Un cycle d'instruction est la séquence d'opérations effectuées par le processeur pour traiter une seule instruction. Il se décompose en trois phases : \textbf{Recherche} (Fetch), \textbf{Décodage} (Decode) et \textbf{Exécution} (Execute).
+
+\medskip
+Prenons l'exemple suivant : l'instruction \texttt{ADD 200} est stockée à l'adresse mémoire \texttt{100}, et la case mémoire \texttt{200} contient la valeur \texttt{45}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    phase/.style={rectangle, draw, fill=blue!15, text width=3.5cm, text centered, rounded corners, minimum height=1.2cm, font=\large\bfseries},
+    arrow/.style={-latex', very thick, blue!60}
+]
+\node[phase] (fetch) at (0,0) {Recherche\\(Fetch)};
+\node[phase] (decode) at (5.5,0) {Décodage\\(Decode)};
+\node[phase] (execute) at (11,0) {Exécution\\(Execute)};
+
+\draw[arrow] (fetch) -- (decode);
+\draw[arrow] (decode) -- (execute);
+\draw[arrow, dashed] (execute.south) -- ++(0,-0.8) -| (fetch.south) node[pos=0.25, below, font=\small\itshape] {Cycle suivant};
+\end{tikzpicture}
+\caption{Les trois phases du cycle d'instruction}
+\end{figure}
+
+\subsection*{Phase 1 -- Recherche (Fetch)}
+Le processeur va chercher l'instruction en mémoire :
+\begin{enumerate}
+    \item Le contenu du compteur de programme (PC) est copié dans le \textbf{registre d'adresse} (MAR) : MAR $\leftarrow$ \texttt{100}
+    \item La mémoire renvoie le contenu de cette adresse dans le \textbf{registre de données} (MDR) : MDR $\leftarrow$ \texttt{ADD 200}
+    \item Le contenu du MDR est transféré dans le \textbf{registre d'instruction} (IR) : IR $\leftarrow$ \texttt{ADD 200}
+    \item Le compteur de programme est incrémenté : PC $\leftarrow$ \texttt{101}
+\end{enumerate}
+
+\subsection*{Phase 2 -- Décodage (Decode)}
+\begin{enumerate}
+    \item L'unité de contrôle analyse le contenu de l'IR et identifie l'opération (\texttt{ADD}) et l'adresse de l'opérande (\texttt{200}).
+\end{enumerate}
+
+\subsection*{Phase 3 -- Exécution (Execute)}
+\begin{enumerate}
+    \item L'adresse de l'opérande est placée dans le \textbf{registre d'adresse} : MAR $\leftarrow$ \texttt{200}
+    \item La valeur à cette adresse est lue dans le \textbf{registre de données} : MDR $\leftarrow$ \texttt{45}
+    \item L'opération est effectuée dans le \textbf{registre du processeur} (accumulateur) : AC $\leftarrow$ AC + 45
+\end{enumerate}
+
+\subsection*{État des registres à chaque phase}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Phase} & \textbf{Reg. adr.} & \textbf{Reg. mém.} & \textbf{Reg. instr.} & \textbf{Reg. donn.} & \textbf{Reg. proc.} \\
+ & (MAR) & (Mémoire) & (IR) & (MDR) & (AC) \\
+\hline
+Recherche & 100 & Mém[100] lu & ADD 200 & ADD 200 & -- \\
+\hline
+Décodage & -- & -- & ADD 200 & -- & -- \\
+\hline
+Exécution & 200 & Mém[200] lu & ADD 200 & 45 & AC + 45 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    reg/.style={rectangle, draw, fill=yellow!10, minimum width=2.8cm, minimum height=1cm, align=center, font=\footnotesize},
+    mem/.style={rectangle, draw, fill=green!10, minimum width=2.8cm, minimum height=1cm, align=center, font=\footnotesize},
+    label/.style={font=\footnotesize\bfseries, above},
+    arrow/.style={-latex', thick},
+    data/.style={font=\footnotesize\ttfamily, red!70!black}
+]
+
+% Registers
+\node[reg] (pc) at (0,0) {PC\\= \texttt{100}};
+\node[label] at (pc.north) {Compteur Prog.};
+
+\node[reg] (mar) at (3.5,0) {MAR\\= \texttt{100}};
+\node[label] at (mar.north) {Reg. d'Adresse};
+
+\node[mem] (memory) at (7,0) {Mém[\texttt{100}]\\= \texttt{ADD 200}};
+\node[label] at (memory.north) {Mémoire};
+
+\node[reg] (mdr) at (7,-2.5) {MDR\\= \texttt{ADD 200}};
+\node[label] at (mdr.north) {Reg. de Données};
+
+\node[reg] (ir) at (3.5,-2.5) {IR\\= \texttt{ADD 200}};
+\node[label] at (ir.north) {Reg. d'Instruction};
+
+\node[reg] (ac) at (0,-2.5) {AC\\= AC + 45};
+\node[label] at (ac.north) {Accumulateur};
+
+% Arrows with step numbers
+\draw[arrow] (pc) -- (mar) node[midway, above, data] {\circled{1}};
+\draw[arrow] (mar) -- (memory) node[midway, above, data] {\circled{2}};
+\draw[arrow] (memory) -- (mdr) node[midway, right, data] {\circled{3}};
+\draw[arrow] (mdr) -- (ir) node[midway, above, data] {\circled{4}};
+\draw[arrow] (ir) -- (ac) node[midway, above, data] {\circled{5}};
+
+\end{tikzpicture}
+\caption{Flux de données entre les registres lors du cycle d'instruction}
+\end{figure}
 
 \section*{Exercice 6 : Explicitez le mécanisme de conversion du décimal 41.6875 en binaire
 101001.1011}
@@ -280,7 +386,7 @@ Pour convertir un nombre décimal à virgule en binaire, on sépare le problème
 
 1. La partie entière : 41
 
-\item \textbf{On utilise la méthode des divisions successives par 2. On note les restes de bas en haut.}
+On utilise la méthode des divisions successives par 2. On note les restes de bas en haut.
 
 \begin{itemize}
    \item \textbf{$41 \div 2 = 20$} , reste 1
@@ -290,7 +396,7 @@ Pour convertir un nombre décimal à virgule en binaire, on sépare le problème
      \item \textbf{$2 \div 2 = 1$} , reste 0
    \item \textbf{$1 \div 2 = 0$} , reste 1
 \end{itemize}
-\item \textbf{0n obtient : 101001.}
+\noindent On obtient : $(41)_{10} = \mathbf{101001_2}$
 
 2. La partie fractionnaire : 0.6875
 
@@ -301,8 +407,306 @@ Ici, on utilise des multiplications successives par 2.
    \item \textbf{$0.75 \times 2 = \mathbf{1}.5$ $\rightarrow$ on note 1, il reste $0.5$}
    \item \textbf{$0.5 \times 2 = \mathbf{1}.0$ $\rightarrow$ on note 1, il reste $0$} 
 \end{itemize}
-\item \textbf{Donc en lisant de haut en bas, on obtient : .1011.}
+\noindent Donc en lisant de haut en bas, on obtient : $\mathbf{.1011}$
 On réunit les deux parties séparées par la virgule binaire :$$101001 + .1011 = \mathbf{101001.1011_2}$$
+
+\newpage
+
+\section*{Exercice 7 : Complément à $(r - 1)$ en octal et hexadécimal}
+
+\subsection*{Rappel}
+
+Pour un nombre $N$ en base $r$ ayant $n$ chiffres, le complément à $(r-1)$ est défini par :
+$$(r^n - 1) - N$$
+
+La méthode pratique consiste à soustraire \textbf{chaque chiffre} individuellement de $(r-1)$.
+
+\subsection*{a) Complément à 7 d'un nombre octal}
+
+En base octale, $r = 8$ donc $r - 1 = 7$. Le complément à 7 s'obtient en \textbf{soustrayant chaque chiffre octal de 7}.
+
+\medskip
+\textbf{Exemple :} Complément à 7 de $\mathbf{5274_8}$ \ ($n = 4$ chiffres)
+
+$$C_7(5274_8) = (8^4 - 1) - 5274_8 = 7777_8 - 5274_8$$
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Position} & Chiffre 4 & Chiffre 3 & Chiffre 2 & Chiffre 1 \\
+\hline
+$r - 1 = 7$ & 7 & 7 & 7 & 7 \\
+\hline
+$N$ & 5 & 2 & 7 & 4 \\
+\hline
+\textbf{Résultat} & \textbf{2} & \textbf{5} & \textbf{0} & \textbf{3} \\
+\hline
+\end{tabular}
+\end{center}
+
+$$\boxed{C_7(5274_8) = 2503_8}$$
+
+\textbf{Vérification :} $5274_8 + 2503_8 = 7777_8 = 8^4 - 1$ \checkmark
+
+\subsection*{b) Complément à 15 (F) d'un nombre hexadécimal}
+
+En base hexadécimale, $r = 16$ donc $r - 1 = 15 = \text{F}_{16}$. Le complément à F s'obtient en \textbf{soustrayant chaque chiffre hexadécimal de F (15)}.
+
+\medskip
+\textbf{Exemple :} Complément à F de $\mathbf{3\text{A}7_{16}}$ \ ($n = 3$ chiffres)
+
+$$C_F(3\text{A}7_{16}) = (16^3 - 1) - 3\text{A}7_{16} = \text{FFF}_{16} - 3\text{A}7_{16}$$
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Position} & Chiffre 3 & Chiffre 2 & Chiffre 1 \\
+\hline
+$r - 1 = $ F (15) & F (15) & F (15) & F (15) \\
+\hline
+$N$ & 3 & A (10) & 7 \\
+\hline
+\textbf{Soustraction} & $15 - 3 = 12$ & $15 - 10 = 5$ & $15 - 7 = 8$ \\
+\hline
+\textbf{Résultat} & \textbf{C} & \textbf{5} & \textbf{8} \\
+\hline
+\end{tabular}
+\end{center}
+
+$$\boxed{C_F(3\text{A}7_{16}) = \text{C}58_{16}}$$
+
+\textbf{Vérification :} $3\text{A}7_{16} + \text{C}58_{16} = \text{FFF}_{16} = 16^3 - 1$ \checkmark
+
+\subsection*{Tableau récapitulatif par analogie}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|p{5.5cm}|l|}
+\hline
+\textbf{Base} & $r$ & $r-1$ & \textbf{Méthode} & \textbf{Exemple} \\
+\hline
+Binaire & 2 & 1 & Inverser chaque bit ($0 \leftrightarrow 1$) & $C_1(1011001) = 0100110$ \\
+\hline
+Octale & 8 & 7 & Soustraire chaque chiffre de 7 & $C_7(5274_8) = 2503_8$ \\
+\hline
+Décimale & 10 & 9 & Soustraire chaque chiffre de 9 & $C_9(546700) = 453299$ \\
+\hline
+Hexadécimale & 16 & F & Soustraire chaque chiffre de F & $C_F(3\text{A}7_{16}) = \text{C}58_{16}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    box/.style={rectangle, draw, minimum width=1.2cm, minimum height=0.8cm, text centered, font=\large},
+    label/.style={font=\small\bfseries},
+    arrow/.style={-latex', thick}
+]
+
+% Octal example
+\node[label] at (-2, 2) {Octal :};
+\node[box, fill=orange!15] (o1) at (0,2) {5};
+\node[box, fill=orange!15] (o2) at (1.5,2) {2};
+\node[box, fill=orange!15] (o3) at (3,2) {7};
+\node[box, fill=orange!15] (o4) at (4.5,2) {4};
+
+\node[font=\large] at (6,2) {$\rightarrow$};
+
+\node[box, fill=green!15] (r1) at (7.5,2) {2};
+\node[box, fill=green!15] (r2) at (9,2) {5};
+\node[box, fill=green!15] (r3) at (10.5,2) {0};
+\node[box, fill=green!15] (r4) at (12,2) {3};
+
+\node[font=\scriptsize, above] at (0,2.5) {$7-5$};
+\node[font=\scriptsize, above] at (1.5,2.5) {$7-2$};
+\node[font=\scriptsize, above] at (3,2.5) {$7-7$};
+\node[font=\scriptsize, above] at (4.5,2.5) {$7-4$};
+
+% Hex example
+\node[label] at (-2, 0) {Hexa :};
+\node[box, fill=purple!15] (h1) at (0,0) {3};
+\node[box, fill=purple!15] (h2) at (1.5,0) {A};
+\node[box, fill=purple!15] (h3) at (3,0) {7};
+
+\node[font=\large] at (6,0) {$\rightarrow$};
+
+\node[box, fill=green!15] (s1) at (7.5,0) {C};
+\node[box, fill=green!15] (s2) at (9,0) {5};
+\node[box, fill=green!15] (s3) at (10.5,0) {8};
+
+\node[font=\scriptsize, above] at (0,0.5) {$F-3$};
+\node[font=\scriptsize, above] at (1.5,0.5) {$F-A$};
+\node[font=\scriptsize, above] at (3,0.5) {$F-7$};
+
+\end{tikzpicture}
+\caption{Illustration du complément à $(r-1)$ : chaque chiffre est soustrait de $(r-1)$}
+\end{figure}
+
+\newpage
+
+\section*{Exercice 8 : Configuration RAM et ROM de la carte mémoire}
+
+\subsection*{Analyse du bus d'adresses}
+
+Le bus d'adresses comporte \textbf{10 bits} (A10 à A1), ce qui permet d'adresser $2^{10} = 1024$ emplacements mémoire (adresses \texttt{0000} à \texttt{03FF}).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.85, every node/.style={transform shape}]
+    % Memory blocks
+    \draw[fill=blue!15, draw=black, thick] (0,0) rectangle (5,1.5);
+    \node at (2.5,0.75) {\large RAM 1 -- 128 octets};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,0) {0000};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,1.5) {007F};
+
+    \draw[fill=blue!25, draw=black, thick] (0,1.5) rectangle (5,3);
+    \node at (2.5,2.25) {\large RAM 2 -- 128 octets};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,1.5) {0080};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,3) {00FF};
+
+    \draw[fill=blue!15, draw=black, thick] (0,3) rectangle (5,4.5);
+    \node at (2.5,3.75) {\large RAM 3 -- 128 octets};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,3) {0100};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,4.5) {017F};
+
+    \draw[fill=blue!25, draw=black, thick] (0,4.5) rectangle (5,6);
+    \node at (2.5,5.25) {\large RAM 4 -- 128 octets};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,4.5) {0180};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,6) {01FF};
+
+    \draw[fill=red!15, draw=black, thick] (0,6.2) rectangle (5,9.2);
+    \node at (2.5,7.7) {\large ROM -- 512 octets};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,6.2) {0200};
+    \node[left, font=\footnotesize\ttfamily] at (-0.2,9.2) {03FF};
+
+    % Braces
+    \draw[decorate, decoration={brace, amplitude=10pt, mirror}] (5.3,0) -- (5.3,6)
+        node[midway, right=14pt, align=left] {\textbf{RAM}\\$4 \times 128 = 512$ o};
+    \draw[decorate, decoration={brace, amplitude=10pt, mirror}] (5.3,6.2) -- (5.3,9.2)
+        node[midway, right=14pt, align=left] {\textbf{ROM}\\512 o};
+
+    % Total
+    \draw[decorate, decoration={brace, amplitude=12pt, mirror}] (9,0) -- (9,9.2)
+        node[midway, right=16pt, align=left] {\textbf{Total}\\1024 octets\\$= 2^{10}$};
+\end{tikzpicture}
+\caption{Carte mémoire -- répartition de l'espace d'adressage}
+\end{figure}
+
+\subsection*{Configuration de la RAM}
+
+La mémoire RAM est composée de \textbf{4 puces de 128 octets} chacune ($2^7$), pour un total de \textbf{512 octets} (adresses \texttt{0000} à \texttt{01FF}).
+
+\begin{itemize}
+    \item \textbf{Adressage interne :} Chaque puce utilise les bits \textbf{A7 à A1} (7 bits) pour adresser ses 128 emplacements.
+    \item \textbf{Sélection de puce :} Le bit \textbf{A10 = 0} identifie la zone RAM. Les bits \textbf{A9} et \textbf{A8} sélectionnent la puce active grâce à un décodeur 2 vers 4 :
+\end{itemize}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|c|c|l|}
+\hline
+\textbf{A10} & \textbf{A9} & \textbf{A8} & \textbf{A7--A1} & \textbf{Composant sélectionné} \\
+\hline
+0 & 0 & 0 & x x x x x x x & RAM 1 (\texttt{0000}--\texttt{007F}) \\
+\hline
+0 & 0 & 1 & x x x x x x x & RAM 2 (\texttt{0080}--\texttt{00FF}) \\
+\hline
+0 & 1 & 0 & x x x x x x x & RAM 3 (\texttt{0100}--\texttt{017F}) \\
+\hline
+0 & 1 & 1 & x x x x x x x & RAM 4 (\texttt{0180}--\texttt{01FF}) \\
+\hline
+1 & \multicolumn{2}{c|}{x} & x x x x x x x & ROM (\texttt{0200}--\texttt{03FF}) \\
+\hline
+\end{tabular}
+\end{center}
+
+\textit{Note :} Les \texttt{x} représentent des bits « libres » utilisés pour l'adressage interne de chaque composant.
+
+\subsection*{Configuration de la ROM}
+
+La mémoire ROM est composée d'\textbf{une seule puce de 512 octets} ($2^9$), occupant les adresses \texttt{0200} à \texttt{03FF}.
+
+\begin{itemize}
+    \item \textbf{Adressage interne :} La puce utilise les bits \textbf{A9 à A1} (9 bits) pour adresser ses 512 emplacements.
+    \item \textbf{Sélection de puce :} Le bit \textbf{A10 = 1} suffit à activer la ROM.
+\end{itemize}
+
+\subsection*{Logique de sélection des puces}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    block/.style={rectangle, draw, minimum width=2.5cm, minimum height=1cm, align=center, font=\small},
+    chip/.style={rectangle, draw, minimum width=2cm, minimum height=0.7cm, align=center, font=\small},
+    arrow/.style={-latex', thick}
+]
+
+% A10 input
+\node[font=\bfseries] (a10) at (0,3) {A10};
+
+% Decision block
+\node[block, fill=orange!15] (test) at (3,3) {A10 = ?};
+
+% Decoder
+\node[block, fill=green!15, minimum height=2cm] (dec) at (3,0) {Décodeur\\2 vers 4\\(A9, A8)};
+
+% RAM chips
+\node[chip, fill=blue!10] (r1) at (7.5, 1.5) {RAM 1};
+\node[chip, fill=blue!10] (r2) at (7.5, 0.5) {RAM 2};
+\node[chip, fill=blue!10] (r3) at (7.5,-0.5) {RAM 3};
+\node[chip, fill=blue!10] (r4) at (7.5,-1.5) {RAM 4};
+
+% ROM chip
+\node[chip, fill=red!10, minimum height=1.2cm] (rom) at (7.5, 4) {ROM};
+
+% A9,A8 input
+\node[font=\bfseries] (a98) at (0,0) {A9, A8};
+
+% A7-A1 input
+\node[font=\bfseries] (a71) at (0,-2.5) {A7--A1};
+
+% A9-A1 input
+\node[font=\bfseries] (a91) at (0,5) {A9--A1};
+
+% Connections
+\draw[arrow] (a10) -- (test);
+\draw[arrow] (test) -- node[right, font=\small] {0} (dec);
+\draw[arrow] (test) -- node[above, font=\small] {1} (rom);
+\draw[arrow] (a98) -- (dec);
+
+\draw[arrow] (dec.east) ++(0, 0.6) -- (r1.west);
+\draw[arrow] (dec.east) ++(0, 0.2) -- (r2.west);
+\draw[arrow] (dec.east) ++(0,-0.2) -- (r3.west);
+\draw[arrow] (dec.east) ++(0,-0.6) -- (r4.west);
+
+\draw[arrow, dashed] (a71.east) -- ++(3,0) |- (r1.south west);
+\draw[arrow, dashed] (a91.east) -- ++(3,0) |- (rom.south west);
+
+% Labels
+\node[font=\scriptsize\itshape, below right] at (3.2,-2.5) {adressage interne RAM};
+\node[font=\scriptsize\itshape, above right] at (3.2,5) {adressage interne ROM};
+
+\end{tikzpicture}
+\caption{Logique de sélection des puces mémoire}
+\end{figure}
+
+La mémoire totale adressable est donc : $512 \text{ (RAM)} + 512 \text{ (ROM)} = \textbf{1024 octets}$, ce qui correspond bien aux $2^{10}$ combinaisons possibles du bus d'adresses de 10 bits.
+
+\newpage
+
+\section*{Sources}
+
+\begin{enumerate}
+    \item M. Morris Mano, \textit{Computer System Architecture}, 3\textsuperscript{e} édition, Pearson, 1993.
+    \item M. Morris Mano, \textit{Digital Design}, 5\textsuperscript{e} édition, Pearson, 2012.
+    \item William Stallings, \textit{Computer Organization and Architecture}, 10\textsuperscript{e} édition, Pearson, 2016.
+    \item Andrew S. Tanenbaum, \textit{Structured Computer Organization}, 6\textsuperscript{e} édition, Pearson, 2012.
+    \item Notes de cours INF101 -- Introduction aux outils informatiques, ISTEAH, Hiver 2026.
+    \item Images des exercices 1 et 2 générées par IA (Amazon Titan Image Generator v2).
+\end{enumerate}
 
 \end{document}
 
