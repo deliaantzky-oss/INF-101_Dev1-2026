@@ -7,16 +7,59 @@
 \usepackage{enumitem}
 \usepackage{float}
 \usepackage{tikz}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{caption}
+
 \usetikzlibrary{shapes,arrows,positioning}
 
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
 
-\title{Résolution des Exercices 1, 2 et 3}
-\author{}
-\date{}
+% Configuration de la page
+\geometry{margin=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{INF101 - Devoir 1}
+\fancyhead[R]{Hiver 2026}
+\fancyfoot[C]{\thepage}
+
 
 \begin{document}
+\begin{titlepage}
+   \begin{titlepage}
+    \centering
+    
+    % Logo
+    \includegraphics[width=0.3\textwidth]{isteah.jpg}
+    
+    \vspace{2cm}
+    
+    {\LARGE\bfseries INF101\\Introduction aux outils informatiques\par}
+    
+    \vspace{1.5cm}
+    
+    {\Huge\bfseries Devoir 1\par}
+    
+    \vspace{2cm}
+    
+    {\Large Présenté par:\par}
+    
+    \vspace{0.5cm}
+    
+    {\large
+    JOSEPH Samuel Jonathan\\
+    DELIA Yves Anzt-ky\par}
+    
+    \vfill
+    
+    {\large Hiver 2026\par}
+    
+\end{titlepage}
 
+\newpage
+
+%exercice fait par S
 \section*{Exercice 1 : Composants d'une tour d'ordinateur de bureau}
 
 Les principaux composants que l'on trouve dans une tour d'ordinateur de bureau sont :
@@ -182,4 +225,84 @@ Voici les définitions et rôles des composants numériques dans l'architecture 
     Ce registre contient l'adresse de l'emplacement mémoire auquel le processeur veut accéder, que ce soit pour lire une instruction/donnée ou pour écrire une donnée.
 \end{description}
 
+\section*{Exercice 4 : Convertissez les nombres décimaux suivants en bases indiquées}
+
+\subsubsection*{a. 265 en Binaire}
+
+On divise par 2 successivement :
+
+\begin{itemize}
+   \item \textbf{$265 \div 2 = 132$} , reste 1
+   \item \textbf{$132 \div 2 = 66$} , reste 0
+   \item \textbf{$66 \div 2 = 33$} , reste 0
+   \item \textbf{$33 \div 2 = 16$} , reste 1
+     \item \textbf{$16 \div 2 = 8$} , reste 0
+   \item \textbf{$8 \div 2 = 4$} , reste 0
+   \item \textbf{$4 \div 2 = 2$} , reste 0
+     \item \textbf{$2 \div 2 = 1$} , reste 0
+   \item \textbf{$1 \div 2 = 0$} , reste 1
+\end{itemize}
+
+\subsubsection*{Le resultat est donc $(265)_{10} = \mathbf{100001001_2}$ , en faisant la notation du bas vers le haut} 
+
+\subsubsection*{ b. 839 à octal}
+
+On divise par 8 successivement :
+
+\begin{itemize}
+   \item \textbf{$839 \div 8 = 104$} , reste 7
+   \item \textbf{$104 \div 8 = 13$} , reste 0
+   \item \textbf{$13 \div 8 = 1$} , reste 5
+   \item \textbf{$1 \div 8 = 0$} , reste 1
+\end{itemize}
+
+\subsubsection*{Le resultat est donc $(839)_{10} = \mathbf{1507_8}$ en faisant  la notation du bas vers le haut}
+
+\subsubsection*{c. 572 en hexadécimal}
+
+
+\begin{itemize}
+   \item \textbf{$572 \div 16 = 35$}, reste 12 (ce qui correspond à C)
+   \item \textbf{$35 \div 16 = 2$} , reste 3
+   \item \textbf{$2 \div 16 = 0$} , reste 2
+\end{itemize}
+
+\subsubsection*{$(572)_{10} = \mathbf{23C_{16}}$ en faisant  la notation du bas vers le haut}
+
+% Put number 5 here
+
+%
+
+\section*{Exercice 6 : Explicitez le mécanisme de conversion du décimal 41.6875 en binaire
+101001.1011}
+
+Pour convertir un nombre décimal à virgule en binaire, on sépare le problème en deux parties : la partie entière (avant la virgule) et la partie fractionnaire (après la virgule).
+
+1. La partie entière : 41
+
+\item \textbf{On utilise la méthode des divisions successives par 2. On note les restes de bas en haut.}
+
+\begin{itemize}
+   \item \textbf{$41 \div 2 = 20$} , reste 1
+   \item \textbf{$20 \div 2 = 10$} , reste 0
+   \item \textbf{$10 \div 2 = 5$} , reste 0
+   \item \textbf{$5 \div 2 = 2$} , reste 1
+     \item \textbf{$2 \div 2 = 1$} , reste 0
+   \item \textbf{$1 \div 2 = 0$} , reste 1
+\end{itemize}
+\item \textbf{0n obtient : 101001.}
+
+2. La partie fractionnaire : 0.6875
+
+Ici, on utilise des multiplications successives par 2.
+\begin{itemize}
+   \item \textbf{$0.6875 \times 2 = \mathbf{1}.375$ $\rightarrow$ on note 1, il reste $0.375$} 
+   \item \textbf{$0.375 \times 2 = \mathbf{0}.75$ $\rightarrow$ on note 0, il reste $0.75$}
+   \item \textbf{$0.75 \times 2 = \mathbf{1}.5$ $\rightarrow$ on note 1, il reste $0.5$}
+   \item \textbf{$0.5 \times 2 = \mathbf{1}.0$ $\rightarrow$ on note 1, il reste $0$} 
+\end{itemize}
+\item \textbf{Donc en lisant de haut en bas, on obtient : .1011.}
+On réunit les deux parties séparées par la virgule binaire :$$101001 + .1011 = \mathbf{101001.1011_2}$$
+
 \end{document}
+
